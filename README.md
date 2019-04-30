@@ -17,12 +17,12 @@ Usage
 
 You can try my project with the following commands:  
 First, clone the repository
-```
+```shell
 git clone https://github.com/lgaultie/get_next_line
 cd get_next_line
 ```
 Then, create libft.a to compile it later
-```
+```shell
 cd libft
 make
 ```
