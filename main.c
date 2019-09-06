@@ -4,20 +4,23 @@
 #include <fcntl.h>
 
 
-int     main(void)
+int     main(int argc, char **argv)
 {
   int   ret = 1;
   char  *line;
   int   fd;
 
   line = NULL;
-  fd = open("test", O_RDONLY);
-  while (ret != 0)
+  if (argc)
   {
-    ft_memdel((void**)&line);
-    ret = get_next_line(fd, &line);
-    ft_putstr(line);
-    ft_putchar('\n');
+    fd = open(argv[1], O_RDONLY);
+    while (ret != 0)
+    {
+      ft_memdel((void**)&line);
+      ret = get_next_line(fd, &line);
+      ft_putstr(line);
+      ft_putchar('\n');
+    }
   }
   return (0);
 }
