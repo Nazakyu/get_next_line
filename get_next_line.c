@@ -75,18 +75,17 @@ static int				stock(char **str, char **line)
 	{
 		if (lastline(line, str, i) == 1)
 			return (1);
-		return (0);
 	}
+
 	return (0);
 }
 
 int						get_next_line(int const fd, char **line)
 {
 	static char		*str = NULL;
-	int				i;
 	char			buf[BUFF_SIZE];
+	int			ret;
 
-	i = 0;
 	if (fd < 0 || BUFF_SIZE < 1 || line == NULL || read(fd, buf, 0) == -1)
 		return (-1);
 	if (!str)
@@ -96,5 +95,8 @@ int						get_next_line(int const fd, char **line)
 	}
 	if ((str = readfile(str, fd)) == NULL)
 		return (-1);
-	return (stock(&str, line));
+	ret = stock(&str, line);
+	if (ret == 0)
+		free(str);
+	return (ret);
 }
