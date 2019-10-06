@@ -6,7 +6,7 @@
 /*   By: lgaultie <lgaultie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 12:12:59 by lgaultie          #+#    #+#             */
-/*   Updated: 2018/12/12 15:26:17 by lgaultie         ###   ########.fr       */
+/*   Updated: 2019/10/06 14:22:03 by lgaultie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,21 +82,17 @@ static int				stock(char **str, char **line)
 
 int						get_next_line(int const fd, char **line)
 {
-	static char		*str = NULL;
-	char			buf[BUFF_SIZE];
-	int			ret;
+	static char		*str[FD_MAX + 1];
 
-	if (fd < 0 || BUFF_SIZE < 1 || line == NULL || read(fd, buf, 0) == -1)
+	if (fd < 0 || fd > FD_MAX || BUFF_SIZE < 1 || line == NULL \
+	|| read(fd, 0, 0) == -1)
 		return (-1);
-	if (!str)
+	if (!str[fd])
 	{
-		if (!(str = ft_strnew(0)))
+		if (!(str[fd] = ft_strnew(0)))
 			return (-1);
 	}
-	if ((str = readfile(str, fd)) == NULL)
+	if ((str[fd] = readfile(str[fd], fd)) == NULL)
 		return (-1);
-	ret = stock(&str, line);
-	if (ret == 0)
-		free(str);
-	return (ret);
+	return (stock(&str[fd], line));
 }
